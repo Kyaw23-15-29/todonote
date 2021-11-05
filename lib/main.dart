@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todonote/pages/task_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:todonote/provider/task_provider.dart';
 
 void main() {
   runApp(
@@ -8,12 +10,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TaskScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TaskProvider>(create: (_) => TaskProvider())
+      ],
+      child: MaterialApp(
+        home: TaskScreen(),
+      ),
     );
   }
 }

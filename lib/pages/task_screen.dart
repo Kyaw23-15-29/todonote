@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todonote/model/task.dart';
+import 'package:todonote/provider/task_provider.dart';
 import 'package:todonote/widgets/tasks_list.dart';
 import 'package:todonote/pages/add_task_screen.dart';
+import 'package:provider/provider.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
@@ -11,12 +13,6 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   late String newTaskTitle;
 
-  List<Task> tasks = [
-    Task(taskString: 'Buy Milk'),
-    Task(taskString: 'Buy Egg'),
-    Task(taskString: 'Buy Chicken'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +21,7 @@ class _TaskScreenState extends State<TaskScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => AddTaskScreen((newTaskTitle) {
-              setState(() {
-                tasks.add(Task(taskString: newTaskTitle));
-              });
-            }),
+            builder: (context) => AddTaskScreen(),
           );
         },
         backgroundColor: Colors.lightBlueAccent,
@@ -44,7 +36,7 @@ class _TaskScreenState extends State<TaskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   child: Icon(
                     Icons.list,
                     size: 30,
@@ -53,10 +45,10 @@ class _TaskScreenState extends State<TaskScreen> {
                   backgroundColor: Colors.white,
                   radius: 30,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   'Todo List',
                   style: TextStyle(
                       color: Colors.white,
@@ -64,8 +56,8 @@ class _TaskScreenState extends State<TaskScreen> {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '${tasks.length}tasks',
-                  style: TextStyle(
+                  '${Provider.of<TaskProvider>(context).tasks.length}tasks',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                   ),
@@ -83,7 +75,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: TasksList(tasks),
+              child: TasksList(),
             ),
           )
         ],
